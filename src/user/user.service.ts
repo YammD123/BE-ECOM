@@ -74,4 +74,51 @@ export class UserService {
         throw error
     }
   }
+
+  async logout(userId){
+    try {
+        const userLogout = await this.prisma.user.update({
+            where:{
+                id:userId
+            },
+            data:{
+                token:null
+            },
+            select:{
+                id:true,
+                email:true,
+                password:true,
+                token:true
+            }
+        })
+
+        return {message:"User berhasil logout",data:userLogout};
+    } catch (error) {
+        throw error
+    }
+  }
+
+  async updateProfile(UserId, file: Express.Multer.File) {
+    try {
+        const updateProfile = await this.prisma.user.update({
+            where:{
+                id:UserId
+            },
+            data:{
+                image_profile:file.path
+            },
+            select:{
+                id:true,
+                user_name:true,
+                image_profile:true,
+                createdAt:true,
+                updatedAt:true
+            }
+        })
+
+        return updateProfile
+    } catch (error) {
+        throw error
+    }
+  }
 }
