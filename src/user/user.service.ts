@@ -65,7 +65,8 @@ export class UserService {
             select:{
                 id:true,
                 email:true,
-                token:true
+                token:true,
+                role:true
             }
         })
         
