@@ -4,6 +4,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { randomUUID } from 'crypto';
+import { updateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -118,6 +119,37 @@ export class UserService {
         })
 
         return updateProfile
+    } catch (error) {
+        throw error
+    }
+  }
+
+  async getProfile(userId){
+    try {
+        const getProfile = await this.prisma.user.findUnique({
+            where:{
+                id:userId
+            }
+        })
+        return {message:"User berhasil ditemukan",data:getProfile};
+    } catch (error) {
+        throw error
+    }
+  }
+
+  async updateUser(updateUserDto:updateUserDto,userId){
+    const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+    try {
+        const updateUser = await this.prisma.user.update({
+            where:{
+                id:userId
+            },
+            data:{
+                ...updateUserDto,
+                password:hashedPassword
+            }
+        })
+        return {message:"User berhasil di update",data:updateUser};
     } catch (error) {
         throw error
     }
