@@ -107,18 +107,18 @@ export class UserService {
                 id:UserId
             },
             data:{
-                image_profile:file.path
+                profile_image:file.path
             },
             select:{
                 id:true,
                 user_name:true,
-                image_profile:true,
+                profile_image:true,
                 createdAt:true,
                 updatedAt:true
             }
         })
 
-        return updateProfile
+        return {message:"User berhasil di update",data:updateProfile};
     } catch (error) {
         throw error
     }
@@ -150,6 +150,15 @@ export class UserService {
             }
         })
         return {message:"User berhasil di update",data:updateUser};
+    } catch (error) {
+        throw error
+    }
+  }
+
+  async getAllUser(){
+    try {
+        const findAllUser = await this.prisma.user.findMany()
+        return {message:"All user berhasil ditemukan",data:findAllUser};
     } catch (error) {
         throw error
     }

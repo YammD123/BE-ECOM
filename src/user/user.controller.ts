@@ -45,4 +45,9 @@ export class UserController {
   async updateUser(@Body() updateUserDto:updateUserDto,@Req() req){
     return this.userService.updateUser(req.user.id,updateUserDto)
   }
+
+  @Get()
+  async getAllUser(){
+    return this.userService.getAllUser()
+  }
 }
