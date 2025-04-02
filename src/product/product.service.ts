@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import cloudinary from 'src/config/claudinary.config';
-import { error } from 'console';
-import { response } from 'express';
+
 
 @Injectable()
 export class ProductService {
@@ -27,11 +26,14 @@ export class ProductService {
             )
             uploadStream.end(file.buffer)
         })
+
+        
         try {
             
             const createProduct = await this.prisma.product.create({
                 data:{
                     ...createProductDto,
+                    price:Number(createProductDto.price),
                     userId:userId,
                     product_image:result.secure_url
                 }

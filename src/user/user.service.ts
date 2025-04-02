@@ -184,4 +184,25 @@ export class UserService {
         throw error
     }
   }
+
+  async deleteUser(id:string){
+    try {
+        const findUser = await this.prisma.user.findUnique({
+            where:{
+                id:id
+            }
+        })
+        if(!findUser){
+            throw new HttpException('User tidak ditemukan',HttpStatus.NOT_FOUND)
+        }
+        const deleteUser = await this.prisma.user.deleteMany({
+            where:{
+                id:id
+            }
+        })
+        return {message:"User berhasil dihapus",data:deleteUser};
+    } catch (error) {
+        throw error
+    }
+  }
 }

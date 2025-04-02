@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -48,5 +48,10 @@ export class UserController {
   @Get()
   async getAllUser(){
     return this.userService.getAllUser()
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id:string){
+    return this.userService.deleteUser(id)
   }
 }
