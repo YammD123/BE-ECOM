@@ -4,7 +4,6 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { storage } from 'src/config/claudinary.config';
 import { updateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
@@ -29,7 +28,7 @@ export class UserController {
 
   @Patch('/update/profile')
   @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor('image',{storage}))
+  @UseInterceptors(FileInterceptor('image'))
   async updateProfile(@Req()req,@UploadedFile() file:Express.Multer.File,){
     return await this.userService.updateProfile(req.user.id,file)
   }

@@ -5,6 +5,8 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { randomUUID } from 'crypto';
 import { updateUserDto } from './dto/update-user.dto';
+import cloudinary from 'src/config/claudinary.config';
+
 
 @Injectable()
 export class UserService {
@@ -100,14 +102,33 @@ export class UserService {
     }
   }
 
+
   async updateProfile(UserId, file: Express.Multer.File) {
     try {
+        const result : any = await new Promise((resolve, reject)=>{
+            const timeout = setTimeout(()=>{
+                reject(new Error('Request Timeoutttttttt'))
+                clearTimeout(timeout)
+            },30000)
+            const uploadStream = cloudinary.uploader.upload_stream(
+                {folder:'uploads',public_id:file.originalname.split('.')[0],format:'png',timeout:30000},
+                (error,respone)=>{
+                    if(error){
+                        reject(error)
+                    }
+                    else{
+                        resolve(respone)
+                    }
+                } 
+            )
+            uploadStream.end(file.buffer)
+        })
         const updateProfile = await this.prisma.user.update({
             where:{
                 id:UserId
             },
             data:{
-                profile_image:file.path
+                profile_image:result.secure_url
             },
             select:{
                 id:true,

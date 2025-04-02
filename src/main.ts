@@ -12,8 +12,6 @@ async function bootstrap() {
       transform:true
     }
   ))
-  app.getHttpServer().setTimeout(60000); // Mengatur timeout menjadi 60 detik
-
   app.use(cors())
   await app.listen(process.env.PORT ?? 3000);
 }
