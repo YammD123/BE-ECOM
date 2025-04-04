@@ -7,7 +7,8 @@ import cloudinary from 'src/config/claudinary.config';
 @Injectable()
 export class ProductService {
     constructor(private prisma:PrismaService) {}
-    async createProduct( createProductDto : CreateProductDto,userId,file: Express.Multer.File){
+
+    async createProduct( createProductDto : CreateProductDto,userId,file: Express.Multer.File,id:string){
         const result : any = await new Promise((resolve,reject)=>{
             const timeout = setTimeout(()=>{
                 reject(new Error('Request Timeout'))
@@ -35,7 +36,8 @@ export class ProductService {
                     ...createProductDto,
                     price:Number(createProductDto.price),
                     userId:userId,
-                    product_image:result.secure_url
+                    product_image:result.secure_url,
+                    storeId:id,
                 }
             })
             return {message:"Product berhasil di tambahkan",data:createProduct};
