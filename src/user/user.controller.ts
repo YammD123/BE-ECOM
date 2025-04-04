@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { updateUserDto } from './dto/update-user.dto';
+import { PaginationUserDto } from './dto/pagination-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -46,8 +47,8 @@ export class UserController {
   }
 
   @Get()
-  async getAllUser(){
-    return this.userService.getAllUser()
+  async getAllUser(@Query() paginationUserDto:PaginationUserDto){
+    return this.userService.getAllUser(paginationUserDto)
   }
 
   @Delete(':id')

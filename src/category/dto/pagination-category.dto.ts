@@ -1,6 +1,6 @@
 import { IsOptional } from "class-validator"
 
-export class PaginationDto {
+export class PaginationCategoryDto {
     @IsOptional()
     page: number = 1
     @IsOptional()

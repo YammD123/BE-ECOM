@@ -6,6 +6,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { randomUUID } from 'crypto';
 import { updateUserDto } from './dto/update-user.dto';
 import cloudinary from 'src/config/claudinary.config';
+import { PaginationUserDto } from './dto/pagination-user.dto';
 
 
 @Injectable()
@@ -176,10 +177,18 @@ export class UserService {
     }
   }
 
-  async getAllUser(){
+  async getAllUser(paginationUserDto:PaginationUserDto){
     try {
-        const findAllUser = await this.prisma.user.findMany()
-        return {message:"All user berhasil ditemukan",data:findAllUser};
+        const findAllUser = await this.prisma.user.findMany({
+            take: Number(paginationUserDto.limit),
+            skip: Number(paginationUserDto.page - 1) * paginationUserDto.limit
+        })
+        if(findAllUser.length === 0){
+            throw new HttpException('User belum ada',HttpStatus.NOT_FOUND)
+        }
+        const totalUser = await this.prisma.user.count()
+        const totalPage = Math.ceil(totalUser / paginationUserDto.limit)
+        return {message:"All user berhasil ditemukan",totalUser,totalPage,totalData:Number(paginationUserDto.limit),data:findAllUser};
     } catch (error) {
         throw error
     }
