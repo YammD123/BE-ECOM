@@ -45,4 +45,18 @@ export class ProductService {
             throw error
         }
     }
+
+
+    async getAllProductByUserId(userId:string){
+        try {
+            const getAllProduct = await this.prisma.product.findMany({
+                where:{
+                    userId:userId
+                },
+            })
+            return {message:"Product berhasil di ambil",data:getAllProduct};
+        } catch (error) {
+            throw error
+        }
+    }
 }

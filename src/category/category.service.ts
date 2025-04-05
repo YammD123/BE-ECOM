@@ -61,4 +61,20 @@ export class CategoryService {
       throw error;
     }
   }
+
+  async getCategoryByName(name: string) {
+    try {
+        const getCategoryByName = await this.prisma.category.findMany({
+          where:{
+            category_name:name
+          },
+          include:{
+            product:true
+          }
+        })
+        return {message:"Category dan product berhasil ditemukan",data:getCategoryByName};
+    } catch (error) {
+      throw error;
+    }
+  }
 }

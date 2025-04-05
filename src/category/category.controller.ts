@@ -29,4 +29,9 @@ export class CategoryController {
   async deleteCategory(@Param('id') id: string) {
     return this.categoryService.deleteCategory(id);
   }
+
+  @Get(':name')
+  async getCategoryByName(@Param('name') name:string){
+    return this.categoryService.getCategoryByName(name)
+  }
 }
