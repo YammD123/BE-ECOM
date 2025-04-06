@@ -25,6 +25,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   product       Product[]
   store         Store[]
+  order         Order[]
+  comment       Comment[]
 }
 
 model Category {
@@ -35,14 +37,16 @@ model Category {
   product       Product[]
 }
 
-model Store{
-  id    String @id @default(uuid())
+model Store {
+  id         String    @id @default(uuid())
   store_name String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  product Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  product    Product[]
+
+  @@index([userId])
 }
 
 model Product {
@@ -59,4 +63,44 @@ model Product {
   category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   storeId       String
   store         Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  order         Order[]
+  comment       Comment[]
+
+  @@index([categoryId])
+  @@index([storeId])
+  @@index([userId])
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  comment   Comment[]
+
+  @@index([userId])
+  @@index([productId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([userId])
+  @@index([productId])
 }

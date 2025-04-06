@@ -20,4 +20,15 @@ export class ProductController {
     async getAllProductByUserId(@Req() req){
         return await this.productService.getAllProductByUserId(req.user.id)
     }
+
+    @Get('/all')
+    async getAllProduct(){
+        return await this.productService.getAllProduct()
+    }
+
+    @Get(':id')
+    async getProductById(@Param('id') id:string){
+        return await this.productService.getProductById(id)
+    }
+
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import cloudinary from 'src/config/claudinary.config';
@@ -30,6 +30,9 @@ export class ProductService {
 
         
         try {
+            if(!file){
+                throw new HttpException('Image tidak ada',HttpStatus.BAD_REQUEST)
+            }
             
             const createProduct = await this.prisma.product.create({
                 data:{
@@ -55,6 +58,55 @@ export class ProductService {
                 },
             })
             return {message:"Product berhasil di ambil",data:getAllProduct};
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getAllProduct(){
+        try {
+            
+            const getAllProduct = await  this.prisma.product.findMany({
+                include:{
+                    category:{
+                        select:{
+                            category_name:true,
+                        },
+                    },
+                    store:{
+                        select:{
+                            store_name:true,
+                        }
+                    }
+                }
+            })
+            if(getAllProduct.length === 0){
+                throw new HttpException('Product belum ada',HttpStatus.NOT_FOUND)
+            }
+            return {message:"Product berhasil di ambil",data:getAllProduct};
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getProductById(id:string){
+        try {
+            const findProduct = await this.prisma.product.findUnique({
+                where:{
+                    id:id
+                },
+                include:{
+                    category:{
+                        select:{
+                            category_name:true,
+                        },
+                    }
+                }
+            })
+            if(!findProduct){
+                throw new HttpException('Product tidak di temukan',HttpStatus.NOT_FOUND)
+            }
+            return {message:"Product berhasil di ambil",data:findProduct};
         } catch (error) {
             throw error
         }
