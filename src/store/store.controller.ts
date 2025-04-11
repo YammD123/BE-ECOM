@@ -6,16 +6,23 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('store')
 export class StoreController {
-    constructor(private storeService:StoreService) {}
+  constructor(private storeService: StoreService) {}
 
-    @Post()
-    @UseGuards(AuthGuard)
-    async createStore(@Req() req,@Body() createStoreDto:CreateStoreDto){
-        return this.storeService.createStore(req.user.id,createStoreDto)
-    }
-    
-    @Get()
-    async getAllStore(){
-        return this.storeService.getAllStore()
-    }
+  @Post()
+  @UseGuards(AuthGuard)
+  async createStore(@Req() req, @Body() createStoreDto: CreateStoreDto) {
+    return this.storeService.createStore(req.user.id, createStoreDto);
+  }
+
+  @Get()
+  async getAllStore() {
+    return this.storeService.getAllStore();
+  }
+
+  @Get('/user')
+  @UseGuards(AuthGuard)
+  async getStoreByUser(@Req() req) {
+    return this.storeService.getStoreByUser(req.user.id);
+  }
+  
 }

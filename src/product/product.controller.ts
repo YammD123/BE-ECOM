@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -29,6 +29,11 @@ export class ProductController {
     @Get(':id')
     async getProductById(@Param('id') id:string){
         return await this.productService.getProductById(id)
+    }
+
+    @Patch()
+    async updateProduct(){
+        
     }
 
 }

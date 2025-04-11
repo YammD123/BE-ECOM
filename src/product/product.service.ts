@@ -78,7 +78,7 @@ export class ProductService {
                             store_name:true,
                         }
                     }
-                }
+                },orderBy:{createdAt:'desc'}
             })
             if(getAllProduct.length === 0){
                 throw new HttpException('Product belum ada',HttpStatus.NOT_FOUND)
@@ -100,6 +100,11 @@ export class ProductService {
                         select:{
                             category_name:true,
                         },
+                    },
+                    store:{
+                        select:{
+                            store_name:true,
+                        }
                     }
                 }
             })

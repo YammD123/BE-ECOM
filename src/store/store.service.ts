@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 
@@ -36,6 +36,23 @@ export class StoreService {
                 return {message:"Store tidak ada",data:getAllStore};
             }
             return {message:"Store berhasil di ambil",data:getAllStore};
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getStoreByUser(userId){
+        try {
+            const findStore = await this.prisma.store.findMany({
+                where:{
+                    userId:userId
+                }
+            })
+
+            if(findStore.length === 0){
+                throw new HttpException('Store belum ada',HttpStatus.NOT_FOUND)
+            }
+            return {message:"Store berhasil di ambil",data:findStore};
         } catch (error) {
             throw error
         }
