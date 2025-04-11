@@ -12,7 +12,11 @@ async function bootstrap() {
       transform:true
     }
   ))
-  app.use(cors())
+  app.enableCors({
+		origin: '*', // Ganti dengan frontend URL kalau mau aman (misalnya 'https://frontend-mu.vercel.app')
+		methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+		credentials: true,
+	})
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
