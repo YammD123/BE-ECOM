@@ -12,8 +12,7 @@ async function bootstrap() {
     }));
     app.enableCors({
         origin: [
-            'https://your-svelte-frontend.vercel.app',
-            'http://localhost:5173',
+            'http://localhost:5173'
         ],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         allowedHeaders: 'Content-Type, Authorization',

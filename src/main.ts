@@ -14,8 +14,7 @@ async function bootstrap() {
   ))
   app.enableCors({
     origin: [
-      'https://your-svelte-frontend.vercel.app', // Replace with your actual Svelte frontend Vercel URL
-      'http://localhost:5173', // Allow local development
+      'http://localhost:5173' // Allow local development
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
