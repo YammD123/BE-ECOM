@@ -13,10 +13,14 @@ async function bootstrap() {
     }
   ))
   app.enableCors({
-		origin: '*', // Ganti dengan frontend URL kalau mau aman (misalnya 'https://frontend-mu.vercel.app')
-		methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-		credentials: true,
-	})
+    origin: [
+      'https://your-svelte-frontend.vercel.app', // Replace with your actual Svelte frontend Vercel URL
+      'http://localhost:5173', // Allow local development
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true, // If your app uses cookies or auth tokens
+  });
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
