@@ -78,10 +78,23 @@ export class OrderService {
                     userId: userId,
                     productId: buyOrderDto.productId
                 },data:{
-                    status:"SUCCESS"
+                    status:"ORDERING"
                 }
             })
 
+            
+            const snap = new MidtransClient.Snap({
+                isProduction: false,
+                serverKey: process.env.MIDTRANS_SERVER_KEY,
+                clientKey: process.env.MIDTRANS_CLIENT_KEY,
+            });
+            
+            const transaction = await snap.createTransaction({
+                transaction_details: {
+                    order_id: `ORDER-${Date.now()}`,
+                    gross_amount: product.price,
+                },
+            });
             const updatedOrder = await this.prisma.order.findFirst({
                 where:{
                     userId: userId,
@@ -93,21 +106,37 @@ export class OrderService {
                 }
             })
 
-           const snap = new MidtransClient.Snap({
-            isProduction: false,
-            serverKey: process.env.MIDTRANS_SERVER_KEY,
-            clientKey: process.env.MIDTRANS_CLIENT_KEY,
-          });
-          
-          const transaction = await snap.createTransaction({
-            transaction_details: {
-              order_id: `ORDER-${Date.now()}`,
-              gross_amount: product.price,
-            },
-          });
+            await this.prisma.order.updateMany({
+                where:{
+                    userId: userId,
+                    productId: buyOrderDto.productId
+                },data:{
+                    status:"SUCCESS"
+                }
+            })
             return { message: 'Order berhasil dibeli', snapToken: transaction.token,product:updatedOrder };
         } catch (error) {
             throw error
+        }
+    }
+
+    async getSuccess(userId) {
+        try {
+            const getSuccess = await this.prisma.order.findMany({
+                where:{
+                    userId: userId,
+                    status:"SUCCESS"
+                },
+                include:{
+                    product:true
+                }
+            })
+            if(getSuccess.length === 0) {
+                throw new HttpException('Order belum ada', HttpStatus.NOT_FOUND);
+            }
+            return { message: 'Order berhasil ditemukan', data: getSuccess };
+        } catch (error) {
+            throw error;
         }
     }
 }

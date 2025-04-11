@@ -31,4 +31,10 @@ export class OrderController {
     async buyProductOrder(@Req() req,@Body() buyOrderDto:BuyOrderDto){
         return await this.orderService.buyProductOrder(req.user.id,buyOrderDto);
     }
+
+    @Get('/succes')
+    @UseGuards(AuthGuard)
+    async getSuccess(@Req() req){
+        return await this.orderService.getSuccess(req.user.id);
+    }
 }
