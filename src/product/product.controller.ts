@@ -3,6 +3,7 @@ import { ProductService } from './product.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProductDto } from './dto/create-product.dto';
+import { updateProductDto } from './dto/update-prduct.dto';
 
 @Controller('product')
 export class ProductController {
@@ -31,9 +32,10 @@ export class ProductController {
         return await this.productService.getProductById(id)
     }
 
-    @Patch()
-    async updateProduct(){
-        
+    @Patch(':id')
+    @UseGuards(AuthGuard)
+    @UseInterceptors(FileInterceptor('image'))
+    async updateProduct(@Req() req,@UploadedFile() file:Express.Multer.File,@Body() updadateProductDto:updateProductDto,@Param('id') id:string){
+        return await this.productService.updateProduct(req.user.id,file,updadateProductDto,id)
     }
-
 }

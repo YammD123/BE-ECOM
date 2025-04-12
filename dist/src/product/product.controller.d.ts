@@ -1,5 +1,6 @@
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { updateProductDto } from './dto/update-prduct.dto';
 export declare class ProductController {
     private productService;
     constructor(productService: ProductService);
@@ -77,5 +78,19 @@ export declare class ProductController {
             storeId: string;
         };
     }>;
-    updateProduct(): Promise<void>;
+    updateProduct(req: any, file: Express.Multer.File, updadateProductDto: updateProductDto, id: string): Promise<{
+        message: string;
+        data: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            product_name: string;
+            price: number;
+            description: string | null;
+            product_image: string;
+            categoryId: string;
+            userId: string;
+            storeId: string;
+        };
+    }>;
 }

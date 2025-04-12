@@ -18,6 +18,7 @@ const product_service_1 = require("./product.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const platform_express_1 = require("@nestjs/platform-express");
 const create_product_dto_1 = require("./dto/create-product.dto");
+const update_prduct_dto_1 = require("./dto/update-prduct.dto");
 let ProductController = class ProductController {
     productService;
     constructor(productService) {
@@ -35,7 +36,8 @@ let ProductController = class ProductController {
     async getProductById(id) {
         return await this.productService.getProductById(id);
     }
-    async updateProduct() {
+    async updateProduct(req, file, updadateProductDto, id) {
+        return await this.productService.updateProduct(req.user.id, file, updadateProductDto, id);
     }
 };
 exports.ProductController = ProductController;
@@ -73,9 +75,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getProductById", null);
 __decorate([
-    (0, common_1.Patch)(),
+    (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __param(3, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object, update_prduct_dto_1.updateProductDto, String]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "updateProduct", null);
 exports.ProductController = ProductController = __decorate([

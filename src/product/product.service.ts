@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import cloudinary from 'src/config/claudinary.config';
+import { updateProductDto } from './dto/update-prduct.dto';
 
 
 @Injectable()
@@ -112,6 +113,61 @@ export class ProductService {
                 throw new HttpException('Product tidak di temukan',HttpStatus.NOT_FOUND)
             }
             return {message:"Product berhasil di ambil",data:findProduct};
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async updateProduct(userId,file:Express.Multer.File,updateProductDto:updateProductDto,id:string){
+        try {
+            
+            const findProduct = await this.prisma.product.findFirst({
+                where:{
+                    userId:userId,
+                    id:id
+                }
+            })
+            if(!findProduct){
+                throw new HttpException('Product tidak di temukan',HttpStatus.NOT_FOUND)
+            }
+            let product_image = findProduct.product_image
+
+            if(file){
+                const result : any = await new Promise((resolve,reject)=>{
+                    const upload_stream = cloudinary.uploader.upload_stream({
+                        folder:'uploads',
+                        public_id:file.originalname.split('.')[0],
+                        format:'png'
+                    },
+                    (error,response)=>{
+                        if(error){
+                            reject(error)
+                        }else{
+                            resolve(response)
+                        }
+                    }
+                )
+                upload_stream.end(file.buffer)
+                }
+            )
+            product_image = result.secure_url
+            }
+
+            const updateProduct = await this.prisma.product.update({
+                where:{
+                    id:id,
+                    userId:userId
+                },
+                data:{
+                    ...updateProductDto,
+                    price:Number(updateProductDto.price),
+                    product_image:product_image
+                }
+            })
+            if(!updateProduct){
+                throw new HttpException('Product tidak di temukan',HttpStatus.NOT_FOUND)
+            }
+            return {message:"Product berhasil di update",data:updateProduct};
         } catch (error) {
             throw error
         }

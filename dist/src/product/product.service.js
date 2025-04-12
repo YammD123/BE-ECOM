@@ -119,6 +119,56 @@ let ProductService = class ProductService {
             throw error;
         }
     }
+    async updateProduct(userId, file, updateProductDto, id) {
+        try {
+            const findProduct = await this.prisma.product.findFirst({
+                where: {
+                    userId: userId,
+                    id: id
+                }
+            });
+            if (!findProduct) {
+                throw new common_1.HttpException('Product tidak di temukan', common_1.HttpStatus.NOT_FOUND);
+            }
+            let product_image = findProduct.product_image;
+            if (file) {
+                const result = await new Promise((resolve, reject) => {
+                    const upload_stream = claudinary_config_1.default.uploader.upload_stream({
+                        folder: 'uploads',
+                        public_id: file.originalname.split('.')[0],
+                        format: 'png'
+                    }, (error, response) => {
+                        if (error) {
+                            reject(error);
+                        }
+                        else {
+                            resolve(response);
+                        }
+                    });
+                    upload_stream.end(file.buffer);
+                });
+                product_image = result.secure_url;
+            }
+            const updateProduct = await this.prisma.product.update({
+                where: {
+                    id: id,
+                    userId: userId
+                },
+                data: {
+                    ...updateProductDto,
+                    price: Number(updateProductDto.price),
+                    product_image: product_image
+                }
+            });
+            if (!updateProduct) {
+                throw new common_1.HttpException('Product tidak di temukan', common_1.HttpStatus.NOT_FOUND);
+            }
+            return { message: "Product berhasil di update", data: updateProduct };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 exports.ProductService = ProductService;
 exports.ProductService = ProductService = __decorate([
