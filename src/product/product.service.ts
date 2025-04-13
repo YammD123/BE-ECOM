@@ -172,4 +172,23 @@ export class ProductService {
             throw error
         }
     }
+
+    async searchProduct(name:string){
+        try {
+            const searchProduct = await this.prisma.product.findMany({
+                where:{
+                    product_name:{
+                        contains:name,
+                        mode:'insensitive'
+                    }
+                }
+            })
+            if(searchProduct.length === 0){
+                throw new HttpException('Product tidak di temukan',HttpStatus.NOT_FOUND)
+            }
+            return {message:"Product berhasil di ambil",data:searchProduct};
+        } catch (error) {
+            throw error
+        }
+    }
 }

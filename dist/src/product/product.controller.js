@@ -39,6 +39,9 @@ let ProductController = class ProductController {
     async updateProduct(req, file, updadateProductDto, id) {
         return await this.productService.updateProduct(req.user.id, file, updadateProductDto, id);
     }
+    async searchProduct(name) {
+        return await this.productService.searchProduct(name);
+    }
 };
 exports.ProductController = ProductController;
 __decorate([
@@ -86,6 +89,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, update_prduct_dto_1.updateProductDto, String]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "updateProduct", null);
+__decorate([
+    (0, common_1.Get)('search/:name'),
+    __param(0, (0, common_1.Param)('name')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "searchProduct", null);
 exports.ProductController = ProductController = __decorate([
     (0, common_1.Controller)('product'),
     __metadata("design:paramtypes", [product_service_1.ProductService])

@@ -169,6 +169,25 @@ let ProductService = class ProductService {
             throw error;
         }
     }
+    async searchProduct(name) {
+        try {
+            const searchProduct = await this.prisma.product.findMany({
+                where: {
+                    product_name: {
+                        contains: name,
+                        mode: 'insensitive'
+                    }
+                }
+            });
+            if (searchProduct.length === 0) {
+                throw new common_1.HttpException('Product tidak di temukan', common_1.HttpStatus.NOT_FOUND);
+            }
+            return { message: "Product berhasil di ambil", data: searchProduct };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 exports.ProductService = ProductService;
 exports.ProductService = ProductService = __decorate([

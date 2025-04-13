@@ -38,4 +38,9 @@ export class ProductController {
     async updateProduct(@Req() req,@UploadedFile() file:Express.Multer.File,@Body() updadateProductDto:updateProductDto,@Param('id') id:string){
         return await this.productService.updateProduct(req.user.id,file,updadateProductDto,id)
     }
+
+    @Get('search/:name')
+    async searchProduct(@Param('name') name:string){
+        return await this.productService.searchProduct(name)
+    }
 }

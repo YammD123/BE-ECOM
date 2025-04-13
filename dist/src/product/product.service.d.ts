@@ -93,4 +93,19 @@ export declare class ProductService {
             storeId: string;
         };
     }>;
+    searchProduct(name: string): Promise<{
+        message: string;
+        data: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            product_name: string;
+            price: number;
+            description: string | null;
+            product_image: string;
+            categoryId: string;
+            userId: string;
+            storeId: string;
+        }[];
+    }>;
 }
