@@ -3,6 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import * as MidtransClient from 'midtrans-client';
 import { BuyOrderDto } from './dto/buy-order.dto';
+import { PaginationOrderDto } from './dto/pagination-order.dto';
 
 
 @Injectable()
@@ -137,6 +138,24 @@ export class OrderService {
             return { message: 'Order berhasil ditemukan', data: getSuccess };
         } catch (error) {
             throw error;
+        }
+    }
+
+    async getAllOrder(paginationOrderDto:PaginationOrderDto) {
+        try {
+            const findAll = await this.prisma.order.findMany({
+                skip: (paginationOrderDto.page - 1) * paginationOrderDto.limit,
+                take: paginationOrderDto.limit
+            })
+
+            const totalOrder = await this.prisma.order.count()
+            const totalPage = Math.ceil(totalOrder / paginationOrderDto.limit)
+            if(findAll.length === 0) {
+                throw new HttpException('Order belum ada', HttpStatus.NOT_FOUND);
+            }
+            return { message: 'Order berhasil ditemukan',totalOrder,totalPage,totalData:paginationOrderDto.limit, data: findAll };
+        } catch (error) {
+            throw error
         }
     }
 }

@@ -145,6 +145,23 @@ let OrderService = class OrderService {
             throw error;
         }
     }
+    async getAllOrder(paginationOrderDto) {
+        try {
+            const findAll = await this.prisma.order.findMany({
+                skip: (paginationOrderDto.page - 1) * paginationOrderDto.limit,
+                take: paginationOrderDto.limit
+            });
+            const totalOrder = await this.prisma.order.count();
+            const totalPage = Math.ceil(totalOrder / paginationOrderDto.limit);
+            if (findAll.length === 0) {
+                throw new common_1.HttpException('Order belum ada', common_1.HttpStatus.NOT_FOUND);
+            }
+            return { message: 'Order berhasil ditemukan', totalOrder, totalPage, totalData: paginationOrderDto.limit, data: findAll };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 exports.OrderService = OrderService;
 exports.OrderService = OrderService = __decorate([

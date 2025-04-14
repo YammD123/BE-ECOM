@@ -18,6 +18,7 @@ const order_service_1 = require("./order.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const create_order_dto_1 = require("./dto/create-order.dto");
 const buy_order_dto_1 = require("./dto/buy-order.dto");
+const pagination_order_dto_1 = require("./dto/pagination-order.dto");
 let OrderController = class OrderController {
     orderService;
     constructor(orderService) {
@@ -37,6 +38,9 @@ let OrderController = class OrderController {
     }
     async getSuccess(req) {
         return await this.orderService.getSuccess(req.user.id);
+    }
+    async getAllOrder(paginationOrderDto) {
+        return this.orderService.getAllOrder(paginationOrderDto);
     }
 };
 exports.OrderController = OrderController;
@@ -83,6 +87,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "getSuccess", null);
+__decorate([
+    (0, common_1.Get)('/all'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [pagination_order_dto_1.PaginationOrderDto]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "getAllOrder", null);
 exports.OrderController = OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [order_service_1.OrderService])

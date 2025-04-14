@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { BuyOrderDto } from './dto/buy-order.dto';
+import { PaginationOrderDto } from './dto/pagination-order.dto';
 
 @Controller('order')
 export class OrderController {
@@ -36,5 +37,10 @@ export class OrderController {
     @UseGuards(AuthGuard)
     async getSuccess(@Req() req){
         return await this.orderService.getSuccess(req.user.id);
+    }
+
+    @Get('/all')
+    async getAllOrder(@Query() paginationOrderDto:PaginationOrderDto){
+        return this.orderService.getAllOrder(paginationOrderDto)
     }
 }

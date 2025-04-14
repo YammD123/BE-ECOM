@@ -41,11 +41,11 @@ export declare class CategoryService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                categoryId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
-                categoryId: string;
                 userId: string;
                 storeId: string;
             }[];

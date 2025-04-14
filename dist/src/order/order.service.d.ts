@@ -1,6 +1,7 @@
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { BuyOrderDto } from './dto/buy-order.dto';
+import { PaginationOrderDto } from './dto/pagination-order.dto';
 export declare class OrderService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -8,10 +9,10 @@ export declare class OrderService {
         message: string;
         data: {
             id: string;
+            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            status: string;
             productId: string;
         };
     }>;
@@ -22,20 +23,20 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
-                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
+            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            status: string;
             productId: string;
         })[];
     }>;
@@ -51,20 +52,20 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
-                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
+            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            status: string;
             productId: string;
         }) | null;
     }>;
@@ -75,21 +76,35 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
-                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
+            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
-            status: string;
             productId: string;
         })[];
+    }>;
+    getAllOrder(paginationOrderDto: PaginationOrderDto): Promise<{
+        message: string;
+        totalOrder: number;
+        totalPage: number;
+        totalData: number;
+        data: {
+            id: string;
+            status: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            productId: string;
+        }[];
     }>;
 }
