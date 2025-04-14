@@ -149,7 +149,11 @@ let OrderService = class OrderService {
         try {
             const findAll = await this.prisma.order.findMany({
                 skip: (paginationOrderDto.page - 1) * paginationOrderDto.limit,
-                take: paginationOrderDto.limit
+                take: paginationOrderDto.limit,
+                include: {
+                    product: true,
+                    user: true
+                },
             });
             const totalOrder = await this.prisma.order.count();
             const totalPage = Math.ceil(totalOrder / paginationOrderDto.limit);

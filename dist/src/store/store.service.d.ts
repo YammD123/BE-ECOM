@@ -20,11 +20,11 @@ export declare class StoreService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                categoryId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
+                categoryId: string;
                 userId: string;
                 storeId: string;
             }[];

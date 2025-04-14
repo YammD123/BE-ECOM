@@ -9,10 +9,10 @@ export declare class OrderService {
         message: string;
         data: {
             id: string;
-            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
+            status: string;
             productId: string;
         };
     }>;
@@ -23,20 +23,20 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
+                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
-            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
+            status: string;
             productId: string;
         })[];
     }>;
@@ -52,20 +52,20 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
+                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
-            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
+            status: string;
             productId: string;
         }) | null;
     }>;
@@ -76,20 +76,20 @@ export declare class OrderService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                userId: string;
                 product_name: string;
                 price: number;
                 description: string | null;
                 product_image: string;
                 categoryId: string;
+                userId: string;
                 storeId: string;
             };
         } & {
             id: string;
-            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
+            status: string;
             productId: string;
         })[];
     }>;
@@ -98,13 +98,37 @@ export declare class OrderService {
         totalOrder: number;
         totalPage: number;
         totalData: number;
-        data: {
+        data: ({
+            user: {
+                user_name: string;
+                email: string;
+                password: string;
+                id: string;
+                profile_image: string;
+                role: string;
+                createdAt: Date;
+                token: string | null;
+                updatedAt: Date;
+            };
+            product: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                product_name: string;
+                price: number;
+                description: string | null;
+                product_image: string;
+                categoryId: string;
+                userId: string;
+                storeId: string;
+            };
+        } & {
             id: string;
-            status: string;
             createdAt: Date;
             updatedAt: Date;
             userId: string;
+            status: string;
             productId: string;
-        }[];
+        })[];
     }>;
 }
