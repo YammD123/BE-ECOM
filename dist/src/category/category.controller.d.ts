@@ -1,18 +1,14 @@
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { PaginationCategoryDto } from './dto/pagination-category.dto';
+import { updateCategoryDto } from './dto/edit-category.dto';
 export declare class CategoryController {
     private categoryService;
     constructor(categoryService: CategoryService);
     createCategory(createCategoryDto: CreateCategoryDto): Promise<{
         message: string;
-        data: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            category_name: string;
-        };
-    }>;
+        data: any;
+    } | undefined>;
     getAllCategory(paginationCategoryDto: PaginationCategoryDto): Promise<{
         message: string;
         totalCategory: number;
@@ -55,5 +51,14 @@ export declare class CategoryController {
             updatedAt: Date;
             category_name: string;
         })[];
+    }>;
+    editCategory(id: string, updateCategoryDtp: updateCategoryDto): Promise<{
+        message: string;
+        data: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            category_name: string;
+        };
     }>;
 }

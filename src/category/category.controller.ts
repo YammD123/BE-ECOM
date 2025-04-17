@@ -37,7 +37,7 @@ export class CategoryController {
     return this.categoryService.getCategoryByName(name)
   }
 
-  @Patch(':id')
+  @Patch('edit/:id')
   async editCategory(@Param('id') id: string,@Body() updateCategoryDtp: updateCategoryDto) {
     return this.categoryService.editCategory(id,updateCategoryDtp);
   }

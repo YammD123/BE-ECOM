@@ -21,6 +21,7 @@ const auth_guard_1 = require("../auth/auth.guard");
 const platform_express_1 = require("@nestjs/platform-express");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const pagination_user_dto_1 = require("./dto/pagination-user.dto");
+const update_role_user_dto_1 = require("./dto/update-role-user.dto");
 let UserController = class UserController {
     userService;
     constructor(userService) {
@@ -49,6 +50,9 @@ let UserController = class UserController {
     }
     async deleteUser(id) {
         return this.userService.deleteUser(id);
+    }
+    async updateRoleUser(updateRoleUserDto, id) {
+        return this.userService.updateRoleUser(updateRoleUserDto, id);
     }
 };
 exports.UserController = UserController;
@@ -115,6 +119,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_role_user_dto_1.UpdateRoleUserDto, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateRoleUser", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

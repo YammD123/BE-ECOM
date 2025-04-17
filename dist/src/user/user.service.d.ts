@@ -3,6 +3,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
 import { PaginationUserDto } from './dto/pagination-user.dto';
+import { UpdateRoleUserDto } from './dto/update-role-user.dto';
 export declare class UserService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -12,9 +13,9 @@ export declare class UserService {
             user_name: string;
             email: string;
             password: string;
+            role: string;
             id: string;
             profile_image: string;
-            role: string;
             createdAt: Date;
             token: string | null;
             updatedAt: Date;
@@ -24,8 +25,8 @@ export declare class UserService {
         message: string;
         data: {
             email: string;
-            id: string;
             role: string;
+            id: string;
             token: string | null;
         };
     }>;
@@ -54,9 +55,9 @@ export declare class UserService {
             user_name: string;
             email: string;
             password: string;
+            role: string;
             id: string;
             profile_image: string;
-            role: string;
             createdAt: Date;
             token: string | null;
             updatedAt: Date;
@@ -68,9 +69,9 @@ export declare class UserService {
             user_name: string;
             email: string;
             password: string;
+            role: string;
             id: string;
             profile_image: string;
-            role: string;
             createdAt: Date;
             token: string | null;
             updatedAt: Date;
@@ -85,9 +86,9 @@ export declare class UserService {
             user_name: string;
             email: string;
             password: string;
+            role: string;
             id: string;
             profile_image: string;
-            role: string;
             createdAt: Date;
             token: string | null;
             updatedAt: Date;
@@ -96,5 +97,19 @@ export declare class UserService {
     deleteUser(id: string): Promise<{
         message: string;
         data: import(".prisma/client").Prisma.BatchPayload;
+    }>;
+    updateRoleUser(updateUserDto: UpdateRoleUserDto, id: string): Promise<{
+        message: string;
+        data: {
+            user_name: string;
+            email: string;
+            password: string;
+            role: string;
+            id: string;
+            profile_image: string;
+            createdAt: Date;
+            token: string | null;
+            updatedAt: Date;
+        };
     }>;
 }

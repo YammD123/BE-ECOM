@@ -1,18 +1,16 @@
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { PaginationCategoryDto } from './dto/pagination-category.dto';
-export declare class CategoryService {
+import { updateCategoryDto } from './dto/edit-category.dto';
+import { AbstractCategoryCreate } from 'src/common/abstrac-category-create';
+export declare class CategoryService extends AbstractCategoryCreate {
     private prisma;
+    private readonly succesMessage;
     constructor(prisma: PrismaService);
     createCategory(createCategoryDto: CreateCategoryDto): Promise<{
         message: string;
-        data: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            category_name: string;
-        };
-    }>;
+        data: any;
+    } | undefined>;
     getAllCategory(paginationCategoryDto: PaginationCategoryDto): Promise<{
         message: string;
         totalCategory: number;
@@ -55,5 +53,14 @@ export declare class CategoryService {
             updatedAt: Date;
             category_name: string;
         })[];
+    }>;
+    editCategory(id: string, updateCategoryDto: updateCategoryDto): Promise<{
+        message: string;
+        data: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            category_name: string;
+        };
     }>;
 }

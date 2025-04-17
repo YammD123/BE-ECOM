@@ -22,9 +22,9 @@ export declare class CommentService {
                 user_name: string;
                 email: string;
                 password: string;
+                role: string;
                 id: string;
                 profile_image: string;
-                role: string;
                 createdAt: Date;
                 token: string | null;
                 updatedAt: Date;

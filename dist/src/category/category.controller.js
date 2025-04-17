@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
 const create_category_dto_1 = require("./dto/create-category.dto");
 const pagination_category_dto_1 = require("./dto/pagination-category.dto");
+const edit_category_dto_1 = require("./dto/edit-category.dto");
 let CategoryController = class CategoryController {
     categoryService;
     constructor(categoryService) {
@@ -33,6 +34,9 @@ let CategoryController = class CategoryController {
     }
     async getCategoryByName(name) {
         return this.categoryService.getCategoryByName(name);
+    }
+    async editCategory(id, updateCategoryDtp) {
+        return this.categoryService.editCategory(id, updateCategoryDtp);
     }
 };
 exports.CategoryController = CategoryController;
@@ -64,6 +68,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "getCategoryByName", null);
+__decorate([
+    (0, common_1.Patch)('edit/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, edit_category_dto_1.updateCategoryDto]),
+    __metadata("design:returntype", Promise)
+], CategoryController.prototype, "editCategory", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)('category'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])

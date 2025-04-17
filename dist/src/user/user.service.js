@@ -206,6 +206,25 @@ let UserService = class UserService {
             throw error;
         }
     }
+    async updateRoleUser(updateUserDto, id) {
+        try {
+            const updateRole = await this.prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    role: updateUserDto.role
+                }
+            });
+            if (!updateRole) {
+                throw new common_1.HttpException('User tidak ditemukan', common_1.HttpStatus.NOT_FOUND);
+            }
+            return { message: "User berhasil di update", data: updateRole };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([

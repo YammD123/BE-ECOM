@@ -12,9 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
-let CategoryService = class CategoryService {
+const abstrac_category_create_1 = require("../common/abstrac-category-create");
+let CategoryService = class CategoryService extends abstrac_category_create_1.AbstractCategoryCreate {
     prisma;
+    succesMessage = 'Category berhasil di dibuat';
     constructor(prisma) {
+        super();
         this.prisma = prisma;
     }
     async createCategory(createCategoryDto) {
@@ -24,10 +27,10 @@ let CategoryService = class CategoryService {
                     ...createCategoryDto,
                 },
             });
-            return { message: 'Category berhasil di buat', data: createCategory };
+            return this.formatedSucces(this.succesMessage, createCategory);
         }
         catch (error) {
-            throw error;
+            this.handleException(error);
         }
     }
     async getAllCategory(paginationCategoryDto) {
@@ -80,6 +83,25 @@ let CategoryService = class CategoryService {
                 }
             });
             return { message: "Category dan product berhasil ditemukan", data: getCategoryByName };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async editCategory(id, updateCategoryDto) {
+        try {
+            const editCategory = await this.prisma.category.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    category_name: updateCategoryDto.category_name
+                }
+            });
+            if (!editCategory) {
+                throw new common_1.HttpException('Category gagal di update', common_1.HttpStatus.BAD_REQUEST);
+            }
+            return { message: "Category berhasil di update", data: editCategory };
         }
         catch (error) {
             throw error;
