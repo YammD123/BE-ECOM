@@ -4,12 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { PaginationCategoryDto,  } from './dto/pagination-category.dto';
+import { updateCategoryDto } from './dto/edit-category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -33,5 +35,10 @@ export class CategoryController {
   @Get(':name')
   async getCategoryByName(@Param('name') name:string){
     return this.categoryService.getCategoryByName(name)
+  }
+
+  @Patch(':id')
+  async editCategory(@Param('id') id: string,@Body() updateCategoryDtp: updateCategoryDto) {
+    return this.categoryService.editCategory(id,updateCategoryDtp);
   }
 }

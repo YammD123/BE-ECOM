@@ -2,10 +2,15 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { PaginationCategoryDto } from './dto/pagination-category.dto';
+import { updateCategoryDto } from './dto/edit-category.dto';
+import { AbstractCategoryCreate } from 'src/common/abstrac-category-create';
 
 @Injectable()
-export class CategoryService {
-  constructor(private prisma: PrismaService) {}
+export class CategoryService extends AbstractCategoryCreate {
+  private readonly succesMessage = 'Category berhasil di dibuat';
+  constructor(private prisma: PrismaService) {
+    super();
+  }
 
   async createCategory(createCategoryDto: CreateCategoryDto) {
     try {
@@ -14,9 +19,9 @@ export class CategoryService {
           ...createCategoryDto,
         },
       });
-      return { message: 'Category berhasil di buat', data: createCategory };
+      return this.formatedSucces(this.succesMessage, createCategory);
     } catch (error) {
-      throw error;
+      this.handleException(error);
     }
   }
 
@@ -75,6 +80,25 @@ export class CategoryService {
         return {message:"Category dan product berhasil ditemukan",data:getCategoryByName};
     } catch (error) {
       throw error;
+    }
+  }
+
+  async editCategory(id:string,updateCategoryDto:updateCategoryDto){
+    try {
+      const editCategory = await this.prisma.category.update({
+        where:{
+          id:id
+        },
+        data:{
+          category_name:updateCategoryDto.category_name
+        }
+      })
+      if(!editCategory){
+        throw new HttpException('Category gagal di update',HttpStatus.BAD_REQUEST)
+      }
+      return {message:"Category berhasil di update",data:editCategory};
+    } catch (error) {
+      throw error
     }
   }
 }
