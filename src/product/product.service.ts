@@ -3,11 +3,15 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import cloudinary from 'src/config/claudinary.config';
 import { updateProductDto } from './dto/update-prduct.dto';
+import { AbstractProductCreate } from 'src/common/abstrac-product-create';
 
 
 @Injectable()
-export class ProductService {
-    constructor(private prisma:PrismaService) {}
+export class ProductService extends AbstractProductCreate {
+    private  succesMessage = 'Product berhasil di tambahkan'
+    constructor(private prisma:PrismaService) {
+        super();
+    }
 
     async createProduct( createProductDto : CreateProductDto,userId,file: Express.Multer.File,id:string){
         const result : any = await new Promise((resolve,reject)=>{
@@ -44,9 +48,9 @@ export class ProductService {
                     storeId:id,
                 }
             })
-            return {message:"Product berhasil di tambahkan",data:createProduct};
+            return this.formatedSucces(this.succesMessage,createProduct)
         } catch (error) {
-            throw error
+            this.handleException(error)
         }
     }
 
