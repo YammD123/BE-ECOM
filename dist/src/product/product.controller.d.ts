@@ -6,19 +6,8 @@ export declare class ProductController {
     constructor(productService: ProductService);
     createProduct(createProductDto: CreateProductDto, req: any, file: Express.Multer.File, id: string): Promise<{
         message: string;
-        data: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            product_name: string;
-            price: number;
-            description: string | null;
-            product_image: string;
-            categoryId: string;
-            userId: string;
-            storeId: string;
-        };
-    }>;
+        data: any;
+    } | undefined>;
     getAllProductByUserId(req: any): Promise<{
         message: string;
         data: {

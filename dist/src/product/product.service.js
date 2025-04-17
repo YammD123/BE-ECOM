@@ -13,9 +13,12 @@ exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
 const claudinary_config_1 = require("../config/claudinary.config");
-let ProductService = class ProductService {
+const abstrac_product_create_1 = require("../common/abstrac-product-create");
+let ProductService = class ProductService extends abstrac_product_create_1.AbstractProductCreate {
     prisma;
+    succesMessage = 'Product berhasil di tambahkan';
     constructor(prisma) {
+        super();
         this.prisma = prisma;
     }
     async createProduct(createProductDto, userId, file, id) {
@@ -47,10 +50,10 @@ let ProductService = class ProductService {
                     storeId: id,
                 }
             });
-            return { message: "Product berhasil di tambahkan", data: createProduct };
+            return this.formatedSucces(this.succesMessage, createProduct);
         }
         catch (error) {
-            throw error;
+            this.handleException(error);
         }
     }
     async getAllProductByUserId(userId) {
