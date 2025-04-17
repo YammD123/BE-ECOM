@@ -3,4 +3,5 @@ export declare class CreateProductDto {
     product_name: string;
     price: number;
     description: string;
+    image?: any;
 }

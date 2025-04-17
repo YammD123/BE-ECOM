@@ -16,4 +16,7 @@ export class CreateProductDto{
     @IsString()
     @IsOptional()
     description: string
+
+    @IsOptional()
+    image?:any
 }
