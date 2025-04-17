@@ -6,6 +6,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { updateUserDto } from './dto/update-user.dto';
 import { PaginationUserDto } from './dto/pagination-user.dto';
+import { UpdateRoleUserDto } from './dto/update-role-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -54,5 +55,10 @@ export class UserController {
   @Delete(':id')
   async deleteUser(@Param('id') id:string){
     return this.userService.deleteUser(id)
+  }
+
+  @Patch(':id')
+  async updateRoleUser(@Body() updateRoleUserDto: UpdateRoleUserDto,@Param('id') id:string){
+    return this.userService.updateRoleUser(updateRoleUserDto,id)
   }
 }

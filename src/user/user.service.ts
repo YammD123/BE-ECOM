@@ -7,6 +7,7 @@ import { randomUUID } from 'crypto';
 import { updateUserDto } from './dto/update-user.dto';
 import cloudinary from 'src/config/claudinary.config';
 import { PaginationUserDto } from './dto/pagination-user.dto';
+import { UpdateRoleUserDto } from './dto/update-role-user.dto';
 
 
 @Injectable()
@@ -210,6 +211,25 @@ export class UserService {
             }
         })
         return {message:"User berhasil dihapus",data:deleteUser};
+    } catch (error) {
+        throw error
+    }
+  }
+
+  async updateRoleUser(updateUserDto:UpdateRoleUserDto,id:string){
+    try {
+        const updateRole= await this.prisma.user.update({
+            where:{
+                id:id
+            },
+            data:{
+                role:updateUserDto.role
+            }
+        })
+        if(!updateRole){
+            throw new HttpException('User tidak ditemukan',HttpStatus.NOT_FOUND)
+        }
+        return {message:"User berhasil di update",data:updateRole};
     } catch (error) {
         throw error
     }
