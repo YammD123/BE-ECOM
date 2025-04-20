@@ -14,7 +14,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'https://fe-ecom-brown.vercel.app'
+      'https://fe-ecom-brown.vercel.app',
+      'http://localhost:4173',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
