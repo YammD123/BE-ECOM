@@ -83,7 +83,8 @@ export class ProductService extends AbstractProductCreate {
                             store_name:true,
                         }
                     }
-                },orderBy:{createdAt:'desc'}
+                },orderBy:{createdAt:'desc'},
+                take:10
             })
             if(getAllProduct.length === 0){
                 throw new HttpException('Product belum ada',HttpStatus.NOT_FOUND)

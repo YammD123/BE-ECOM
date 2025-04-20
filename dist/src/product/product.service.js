@@ -83,7 +83,8 @@ let ProductService = class ProductService extends abstrac_product_create_1.Abstr
                             store_name: true,
                         }
                     }
-                }, orderBy: { createdAt: 'desc' }
+                }, orderBy: { createdAt: 'desc' },
+                take: 10
             });
             if (getAllProduct.length === 0) {
                 throw new common_1.HttpException('Product belum ada', common_1.HttpStatus.NOT_FOUND);
